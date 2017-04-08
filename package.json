@@ -1,5 +1,5 @@
 {
-  "name": "@wb/wbads",
+  "name": "@wbjs/wbads",
   "version": "0.1.0",
   "description": "Library that provides tools for integrating GPT into websites.",
   "main": "src/index.js",

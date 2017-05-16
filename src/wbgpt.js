@@ -1,15 +1,20 @@
-'use strict';
-
-const slots = {};
+// todo: eslint faceoff(nicolasCage);
+// probably just move all this to index.js (this is the "main" entry point)
+const slots = {}; // todo: make this a map
 let displayProvider = googletag;
 let slotIndex = 1;
-let prefix = 'default-prefix';
+let prefix = 'wbgpt-';
 
 function setPrefix(newPrefix) {
   prefix = newPrefix;
 }
 
+// todo: rename to Slot, move to Slot.js (export default class Slot ...)
+// todo: proper jsdocs (all files)
+// todo: make fluent interface, i.e. return  this from all methods unless returning a value already.
 class BaseSlot {
+
+  // todo: add constructor, create gpt slot in constructor.  call it "this.gptSlot".
 
   /*** custom functions ***/
 
@@ -18,6 +23,7 @@ class BaseSlot {
    */
   display() {
     displayProvider.display(this.config.id);
+    return this; // example "fluent interface"
   }
 
   /**
@@ -25,17 +31,17 @@ class BaseSlot {
    */
   refresh() {
     displayProvider.pubads().refresh([this.slot]);
+    return this;
   }
 
   /**
-   * Returns config
-   * @return {Object}
+   * Returns config (beefcake details or describe the shape)
+   *
+   * @returns {Object}
    */
   getConfig() {
     return this.config;
   }
-
-  /*** simple wrappers around googletag's functions ***/
 
   /**
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_addService
@@ -176,21 +182,25 @@ class BaseSlot {
  * @link https://developers.google.com/doubleclick-gpt/reference#googletag.defineOutOfPageSlot
  * @param {string} unit - unit path ie '/1234567/sports'
  */
+// todo: move to OutOfPageSlot.js, export default class
 class OutOfPageSlot extends BaseSlot {
   constructor(unit) {
+    // todo: move this whole init to "Slot" aka "BaseSlot".
+
+
     const id = `${prefix}-${slotIndex}`;
-    super();
+    super(); // past unit
     this.slot = googletag.defineOutOfPageSlot(unit, id);
     this.slot.setTargeting('tile', slotIndex);
     this.slot.addService(googletag.pubads());
     slotIndex += 1;
 
     this.config = {
-      id: id,
+      id: id, // call it domId instead or is this obvious enough?
       isInterstitial: true,
-      unit: unit
+      unit: unit // todo: is this was google calls it?  or is it unit name?
     };
-    slots[id] = this;
+    slots[id] = this; // remove, see "createBlah" functions...
   }
 }
 
@@ -202,6 +212,7 @@ class OutOfPageSlot extends BaseSlot {
  */
 class Slot extends BaseSlot {
   constructor(unit, sizeMap) {
+    // should be in "Slot" constructor
     const id = `${prefix}-${slotIndex}`;
     super();
     this.slot = googletag.defineSlot(unit, sizeMap, id);
@@ -214,7 +225,7 @@ class Slot extends BaseSlot {
       sizeMap: sizeMap,
       unit: unit
     };
-    slots[id] = this;
+    slots[id] = this; // remove
   }
 }
 
@@ -223,6 +234,43 @@ class Slot extends BaseSlot {
  * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_defineSizeMapping
  * @link https://support.google.com/dfp_premium/answer/1100453?hl=en
  */
+// todo: make "factory" function instead of class...
+// example:
+
+/**
+ * @param {string} unit
+ *
+ * @returns {Slot}
+ */
+function createSlot(unit, id = null) {
+  const domId = id || 'makeoneupwithslotindex?';
+  const slot = new Slot('someunit', domId);
+  // add to slots map here (slots don't get to add themselves)
+  slots[domId] = slot;
+
+  return slot;
+}
+
+/**
+ * @param {string} unit
+ *
+ * @returns {Slot}
+ */
+function createLeaderBoard(unit) {
+  return createSlot(unit)
+    .defineSizeMapping([])
+    // other "leaderboard" stuff
+    .setTargeting('blah', 'what');
+}
+// add above to export, example use:
+/*
+wbgpt.createLeaderBoard('/123/somesite/blah', 'isthisforid?')
+  .setTargeting('taco', 'spice')
+  .othermethods()
+  .omg();
+ */
+
+// eliminate class, move to function like above
 class LeaderBoardSlot extends Slot {
   constructor(unit, sizeMap) {
     super(unit, sizeMap);
@@ -323,8 +371,10 @@ class LargeRectangleSlot extends Slot {
   }
 }
 
+// todo: there are more factories to create... aren't there other well known sizes?
+
 /**
- * get all slots
+ * get all slots (todo: return map.values)
  * @return {Object}
  */
 function getSlots() {
@@ -336,6 +386,7 @@ function getSlots() {
  * @param {float} index - slot number
  * @return {Object}
  */
+// todo: return the slot object, not gpt.  (add getGptSlot() to "Slot" class)
 function getSlotByIndex(index) {
   return slots[`${prefix}-${index}`].slot;
 }
@@ -345,6 +396,7 @@ function getSlotByIndex(index) {
  * @param {string} id - slot dom id
  * @return {Object}
  */
+// todo: return the slot
 function getSlotById(id) {
   return slots[id].slot;
 }
@@ -384,6 +436,7 @@ function refreshAllSlots() {
  * @param {float} index - slot number
  */
 function refreshSlotByIndex(index) {
+  // todo: getSlotByIndex(...).getGptSlot()
   displayProvider.pubads().refresh([getSlotByIndex(index)]);
 }
 

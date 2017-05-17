@@ -1,14 +1,19 @@
 class Slot {
 
-  constructor(adUnitPath, sizeMap, domId) {
-    this.gptSlot = googletag.defineSlot(adUnitPath, sizeMap, domId);
-    this.gptSlot.addService(googletag.pubads());
-
+  constructor(adUnitPath, sizeMap = null, domId) {
     this.config = {
       adUnitPath: adUnitPath,
-      domId: domId,
-      sizeMap: sizeMap
+      domId: domId
     };
+    if (sizeMap) {
+      this.config.sizeMap = sizeMap;
+    }
+  }
+
+  createGptSlot() {
+    this.gptSlot = googletag.defineSlot(this.config.adUnitPath, this.config.sizeMap, this.config.domId);
+    this.gptSlot.addService(googletag.pubads());
+    return this;
   }
 
   getGptSlot() {

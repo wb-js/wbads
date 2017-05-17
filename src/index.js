@@ -1,5 +1,4 @@
 // todo: eslint faceoff(nicolasCage);
-// probably just move all this to index.js (this is the "main" entry point)
 const slots = new Map(); // todo: make this a map
 window.displayProvider = googletag;
 let slotIndex = 1;
@@ -10,9 +9,7 @@ function setPrefix(newPrefix) {
   return this;
 }
 
-// todo: rename to Slot, move to Slot.js (export default class Slot ...)
 // todo: proper jsdocs (all files)
-// todo: make fluent interface, i.e. return  this from all methods unless returning a value already.
 
 import Slot from './Slot.js';
 import OutOfPageSlot from './OutOfPageSlot.js';
@@ -26,6 +23,7 @@ function createOutOfPageSlot(adUnitPath, id = null) {
   const domId = id || `${prefix}${slotIndex}`;
   slotIndex += 1;
   const slot = new OutOfPageSlot(adUnitPath, domId);
+  slot.createGptSlot();
   slots.set(domId, slot);
 
   return slot;
@@ -41,6 +39,7 @@ function createSlot(adUnitPath, sizeMap, id = null) {
   slotIndex += 1;
 
   const slot = new Slot(adUnitPath, sizeMap, domId);
+  slot.createGptSlot();
   slots.set(domId, slot);
 
   return slot;
@@ -53,7 +52,6 @@ function createSlot(adUnitPath, sizeMap, id = null) {
  */
 function createLeaderBoardSlot(adUnitPath, sizeMap, id = null) {
   const domId = id || `${prefix}${slotIndex}`;
-
   const leaderBoardMapping = googletag.sizeMapping()
     .addSize([1024, 768], [
       [728, 90]

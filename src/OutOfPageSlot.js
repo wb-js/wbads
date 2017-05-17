@@ -1,4 +1,4 @@
-import Slot from './Slot.js';
+import Slot from './Slot';
 
 class OutOfPageSlot extends Slot {
 

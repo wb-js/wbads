@@ -1,6 +1,10 @@
+import Slot from './Slot';
+import OutOfPageSlot from './OutOfPageSlot';
+
 // todo: eslint faceoff(nicolasCage);
-const slots = new Map(); // todo: make this a map
+
 window.displayProvider = googletag;
+const slots = new Map();
 let slotIndex = 1;
 let prefix = 'wbgpt-';
 
@@ -11,11 +15,9 @@ function setPrefix(newPrefix) {
 
 // todo: proper jsdocs (all files)
 
-import Slot from './Slot.js';
-import OutOfPageSlot from './OutOfPageSlot.js';
-
 /**
- * @param {string} unit
+ * @param {string} adUnitPath
+ * @param {?number} id
  *
  * @returns {Slot}
  */
@@ -30,7 +32,9 @@ function createOutOfPageSlot(adUnitPath, id = null) {
 }
 
 /**
- * @param {string} unit
+ * @param {string} adUnitPath
+ * @param {array} sizeMap
+ * @param {number} id
  *
  * @returns {Slot}
  */
@@ -54,10 +58,10 @@ function createLeaderBoardSlot(adUnitPath, sizeMap, id = null) {
   const domId = id || `${prefix}${slotIndex}`;
   const leaderBoardMapping = googletag.sizeMapping()
     .addSize([1024, 768], [
-      [728, 90]
+      [728, 90],
     ])
     .addSize([0, 0], [
-      [320, 50]
+      [320, 50],
     ])
     .build();
 
@@ -81,11 +85,11 @@ function createLeaderBoardFlexSlot(adUnitPath, sizeMap, id = null) {
       [970, 66],
       [1010, 150],
       [970, 250],
-      [1010, 250]
+      [1010, 250],
     ])
     .addSize([0, 0], [
       [300, 250],
-      [320, 50]
+      [320, 50],
     ])
     .build();
 
@@ -103,7 +107,7 @@ function createMediumRectangleSlot(adUnitPath, sizeMap, id = null) {
 
   const mediumRectangleMapping = googletag.sizeMapping()
     .addSize([0, 0], [
-      [300, 250]
+      [300, 250],
     ])
     .build();
 
@@ -118,12 +122,12 @@ function createMediumRectangleSlot(adUnitPath, sizeMap, id = null) {
 function createMediumRectangleFlexSlot(adUnitPath, sizeMap, id = null) {
   const domId = id || `${prefix}${slotIndex}`;
 
-    const mediumRectangleFlexMapping = googletag.sizeMapping()
-      .addSize([0, 0], [
-        [300, 250],
-        [300, 600]
-      ])
-      .build();
+  const mediumRectangleFlexMapping = googletag.sizeMapping()
+    .addSize([0, 0], [
+      [300, 250],
+      [300, 600],
+    ])
+    .build();
 
   return createSlot(adUnitPath, sizeMap, domId)
     .defineSizeMapping(mediumRectangleFlexMapping);
@@ -137,41 +141,15 @@ function createMediumRectangleFlexSlot(adUnitPath, sizeMap, id = null) {
 function createLargeRectangleSlot(adUnitPath, sizeMap, id = null) {
   const domId = id || `${prefix}${slotIndex}`;
 
-    const largeRectangleMapping = googletag.sizeMapping()
-      .addSize([0, 0], [
-        [336, 280]
-      ])
-      .build();
+  const largeRectangleMapping = googletag.sizeMapping()
+    .addSize([0, 0], [
+      [336, 280],
+    ])
+    .build();
 
   return createSlot(adUnitPath, sizeMap, domId)
     .defineSizeMapping(largeRectangleMapping);
 }
-
-// add above to export, example use:
-/*
-wbgpt.createLeaderBoard('/123/somesite/blah', 'isthisforid?')
-  .setTargeting('taco', 'spice')
-  .othermethods()
-  .omg();
- */
-
-// eliminate class, move to function like above
-// class LeaderBoardSlot extends Slot {
-//   constructor(unit, sizeMap) {
-//     super(unit, sizeMap);
-
-//     const leaderBoardMapping = googletag.sizeMapping()
-//       .addSize([1024, 768], [
-//         [728, 90]
-//       ])
-//       .addSize([0, 0], [
-//         [320, 50]
-//       ])
-//       .build();
-
-//     this.slot.defineSizeMapping(leaderBoardMapping);
-//   }
-// }
 
 // todo: there are more factories to create... aren't there other well known sizes?
 
@@ -184,15 +162,6 @@ function getSlots() {
 }
 
 /**
- * get slot by index
- * @param {float} index - slot number
- * @return {Object}
- */
-function getSlotByIndex(index) {
-  return slots.get(`${prefix}${index}`);
-}
-
-/**
  * get slot by id
  * @param {string} id - slot dom id
  * @return {Object}
@@ -202,10 +171,19 @@ function getSlotById(id) {
 }
 
 /**
+ * get slot by index
+ * @param {float} index - slot number
+ * @return {Object}
+ */
+function getSlotByIndex(index) {
+  return slots.get(`${prefix}${index}`);
+}
+
+/**
  * this overwrites the function that will call display() and pubads().refresh()
  */
 function setDisplayProvider(newDisplayProvider) {
-  displayProvider = newDisplayProvider;
+  window.displayProvider = newDisplayProvider;
   return this;
 }
 
@@ -214,7 +192,7 @@ function setDisplayProvider(newDisplayProvider) {
  * @param {string} id - slot dom id
  */
 function display(id) {
-  displayProvider.display(id);
+  window.displayProvider.display(id);
   return this;
 }
 
@@ -223,7 +201,7 @@ function display(id) {
  * @param {float} index - slot number
  */
 function displayByIndex(index) {
-  displayProvider.display(getSlotByIndex(1).getSlotElementId());
+  window.displayProvider.display(getSlotByIndex(index).getSlotElementId());
   return this;
 }
 
@@ -231,16 +209,7 @@ function displayByIndex(index) {
  * refresh all slots
  */
 function refreshAllSlots() {
-  displayProvider.pubads().refresh();
-  return this;
-}
-
-/**
- * refresh slot by index
- * @param {float} index - slot number
- */
-function refreshSlotByIndex(index) {
-  displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
+  window.displayProvider.pubads().refresh();
   return this;
 }
 
@@ -249,7 +218,16 @@ function refreshSlotByIndex(index) {
  * @param {string} id - slot dom id
  */
 function refreshSlotById(id) {
-  displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
+  window.displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
+  return this;
+}
+
+/**
+ * refresh slot by index
+ * @param {float} index - slot number
+ */
+function refreshSlotByIndex(index) {
+  window.displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
   return this;
 }
 
@@ -267,8 +245,8 @@ export {
   getSlotById,
   getSlotByIndex,
   refreshAllSlots,
-  refreshSlotByIndex,
   refreshSlotById,
+  refreshSlotByIndex,
   setDisplayProvider,
-  setPrefix
+  setPrefix,
 };

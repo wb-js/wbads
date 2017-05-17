@@ -2,8 +2,8 @@ class Slot {
 
   constructor(adUnitPath, sizeMap = null, domId) {
     this.config = {
-      adUnitPath: adUnitPath,
-      domId: domId
+      adUnitPath,
+      domId,
     };
     if (sizeMap) {
       this.config.sizeMap = sizeMap;
@@ -33,7 +33,7 @@ class Slot {
    * displays slot using displayProvider
    */
   display() {
-    displayProvider.display(this.config.domId);
+    window.displayProvider.display(this.config.domId);
     return this; // example "fluent interface"
   }
 
@@ -41,7 +41,7 @@ class Slot {
    * refreshes slot using displayProvider
    */
   refresh() {
-    displayProvider.pubads().refresh([this.gptSlot]);
+    window.displayProvider.pubads().refresh([this.gptSlot]);
     return this;
   }
 
@@ -64,8 +64,8 @@ class Slot {
   /**
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_clearTargeting
    */
-  clearTargeting(opt_key) {
-    this.gptSlot.clearTargeting(opt_key);
+  clearTargeting(optKey) {
+    this.gptSlot.clearTargeting(optKey);
     return this;
   }
 
@@ -160,8 +160,8 @@ class Slot {
   /**
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setCollapseEmptyDiv
    */
-  setCollapseEmptyDiv(collapse, opt_collapseBeforeAdFetch) {
-    this.gptSlot.setCollapseEmptyDiv(collapse, opt_collapseBeforeAdFetch);
+  setCollapseEmptyDiv(collapse, optCollapseBeforeAdFetch) {
+    this.gptSlot.setCollapseEmptyDiv(collapse, optCollapseBeforeAdFetch);
     return this;
   }
 

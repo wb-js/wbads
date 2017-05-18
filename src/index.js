@@ -1,8 +1,8 @@
 import Slot from './Slot';
 import OutOfPageSlot from './OutOfPageSlot';
 
-window.displayProvider = googletag;
 const slots = new Map();
+let displayProvider;
 let slotIndex = 1;
 let slotDomIdPrefix = 'wbgpt-';
 
@@ -91,7 +91,7 @@ function getSlotByIndex(index) {
  * @param newDisplayProvider {Object} - some display provider, googletag or something like it
  */
 function setDisplayProvider(newDisplayProvider) {
-  window.displayProvider = newDisplayProvider;
+  displayProvider = newDisplayProvider;
 }
 
 /**
@@ -100,7 +100,7 @@ function setDisplayProvider(newDisplayProvider) {
  * @param {string} domId - slot domId
  */
 function display(domId) {
-  window.displayProvider.display(domId);
+  displayProvider.display(domId);
 }
 
 /**
@@ -109,14 +109,14 @@ function display(domId) {
  * @param {number} index - slot number
  */
 function displayByIndex(index) {
-  window.displayProvider.display(getSlotByIndex(index).getSlotElementId());
+  displayProvider.display(getSlotByIndex(index).getSlotElementId());
 }
 
 /**
  * Refresh all slots
  */
 function refreshAllSlots() {
-  window.displayProvider.pubads().refresh();
+  displayProvider.pubads().refresh();
 }
 
 /**
@@ -125,7 +125,7 @@ function refreshAllSlots() {
  * @param {string} id - slot dom id
  */
 function refreshSlotById(id) {
-  window.displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
+  displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
 }
 
 /**
@@ -134,7 +134,7 @@ function refreshSlotById(id) {
  * @param {float} index - slot number
  */
 function refreshSlotByIndex(index) {
-  window.displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
+  displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
 }
 
 export {

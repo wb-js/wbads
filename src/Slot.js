@@ -59,7 +59,7 @@ class Slot {
    * @returns {Slot}
    */
   display() {
-    window.displayProvider.display(this.config.domId);
+    displayProvider.display(this.config.domId);
     return this;
   }
 
@@ -69,7 +69,7 @@ class Slot {
    * @returns {Slot}
    */
   refresh() {
-    window.displayProvider.pubads().refresh([this.gptSlot]);
+    displayProvider.pubads().refresh([this.gptSlot]);
     return this;
   }
 

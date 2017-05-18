@@ -7,6 +7,14 @@ let slotIndex = 1;
 let slotDomIdPrefix = 'wbgpt-';
 
 /**
+ * Get the slotDomIdPrefix that is used when auto-generating domIds
+ *
+ * @returns {string}
+ */
+function getSlotDomIdPrefix() {
+  return slotDomIdPrefix;
+}
+/**
  * If a domId is not supplied during construction, one will be generated using
  * slotDomIdPrefix and slotIndex. Use this function to set the slotDomIdPrefix.
  *
@@ -137,7 +145,7 @@ function refreshSlotByIndex(index) {
   displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
 }
 
-export {
+export default {
   createOutOfPageSlot,
   createSlot,
   display,
@@ -148,6 +156,7 @@ export {
   refreshAllSlots,
   refreshSlotById,
   refreshSlotByIndex,
+  getSlotDomIdPrefix,
   setDisplayProvider,
   setSlotDomIdPrefix,
 };

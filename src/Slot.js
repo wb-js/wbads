@@ -20,6 +20,16 @@ class Slot {
   }
 
   /**
+   * Returns config including adUnitPath, sizeMap (if present), and domId
+   * ex: {adUnitPath: '/1234567/sports', sizeMap: [728, 90], domId: 'wbgpt-1'}
+   *
+   * @returns {config}
+   */
+  getConfig() {
+    return this.config;
+  }
+
+  /**
    * Creates actual GPT slot and adds pubads() service
    *
    * @returns {Slot}
@@ -41,16 +51,6 @@ class Slot {
    */
   getGptSlot() {
     return this.gptSlot;
-  }
-
-  /**
-   * Returns config including adUnitPath, sizeMap (if present), and domId
-   * ex: {adUnitPath: '/1234567/sports', sizeMap: [728, 90], domId: 'wbgpt-1'}
-   *
-   * @returns {config}
-   */
-  getConfig() {
-    return this.config;
   }
 
   /**

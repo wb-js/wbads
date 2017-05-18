@@ -35,8 +35,8 @@ function setSlotDomIdPrefix(newSlotDomIdPrefix) {
 function createOutOfPageSlot(adUnitPath, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
   slotIndex += 1;
+
   const slot = new OutOfPageSlot(adUnitPath, domId);
-  slot.createGptSlot();
   slots.set(domId, slot);
 
   return slot;
@@ -56,7 +56,6 @@ function createSlot(adUnitPath, sizeMap, id = null) {
   slotIndex += 1;
 
   const slot = new Slot(adUnitPath, sizeMap, domId);
-  slot.createGptSlot();
   slots.set(domId, slot);
 
   return slot;
@@ -91,6 +90,15 @@ function getSlotById(id) {
  */
 function getSlotByIndex(index) {
   return slots.get(`${slotDomIdPrefix}${index}`);
+}
+
+/**
+ * Returns displayProvider
+ *
+ * @returns {displayProvider}
+ */
+function getDisplayProvider() {
+  return displayProvider;
 }
 
 /**
@@ -156,7 +164,8 @@ export default {
   refreshAllSlots,
   refreshSlotById,
   refreshSlotByIndex,
-  getSlotDomIdPrefix,
+  getDisplayProvider,
   setDisplayProvider,
+  getSlotDomIdPrefix,
   setSlotDomIdPrefix,
 };

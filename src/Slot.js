@@ -3,11 +3,11 @@ class Slot {
   /**
    * Slot Constructor
    *
-   * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
+   * @param {!string} adUnitPath - Full path of the ad unit with the network code and unit code.
    * @param {?Array} sizeMap -  Width and height of the added slot. This is the size that is used
    * in the ad request if no responsive size mapping is provided or the size of the viewport is
    * smaller than the smallest size provided in the mapping.
-   * @param domId - ID of the div that will contain this ad unit.
+   * @param {!string} domId - ID of the div that will contain this ad unit.
    */
   constructor(adUnitPath, sizeMap = null, domId) {
     this.config = {
@@ -23,7 +23,7 @@ class Slot {
    * Returns config including adUnitPath, sizeMap (if present), and domId
    * ex: {adUnitPath: '/1234567/sports', sizeMap: [728, 90], domId: 'wbgpt-1'}
    *
-   * @returns {config}
+   * @returns {!config}
    */
   getConfig() {
     return this.config;
@@ -32,7 +32,7 @@ class Slot {
   /**
    * Creates actual GPT slot and adds pubads() service
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   createGptSlot() {
     this.gptSlot = googletag.defineSlot(
@@ -47,7 +47,7 @@ class Slot {
   /**
    * Returns actual GPT slot
    *
-   * @returns {Slot}
+   * @returns {!Object}
    */
   getGptSlot() {
     return this.gptSlot;
@@ -56,7 +56,7 @@ class Slot {
   /**
    * Displays slot using displayProvider
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   display() {
     displayProvider.display(this.config.domId);
@@ -66,7 +66,7 @@ class Slot {
   /**
    * Refreshes slot using displayProvider
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   refresh() {
     displayProvider.pubads().refresh([this.gptSlot]);
@@ -77,7 +77,9 @@ class Slot {
    * Adds a service to this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_addService
    *
-   * @returns {Slot}
+   * @param {!function} service - the service to be added ex: googletag.pubads()
+   *
+   * @returns {!Slot}
    */
   addService(service) {
     this.gptSlot.addService(service);
@@ -88,7 +90,7 @@ class Slot {
    * Clears all slot-level ad category exclusion labels for this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_clearCategoryExclusions
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   clearCategoryExclusions() {
     this.gptSlot.clearCategoryExclusions();
@@ -99,7 +101,10 @@ class Slot {
    * Clears specific or all custom slot-level targeting parameters for this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_clearTargeting
    *
-   * @returns {Slot}
+   * @param {?string} optKey - Targeting parameter key. The key is optional; all targeting
+   * parameters will be cleared if it is unspecified.
+   *
+   * @returns {!Slot}
    */
   clearTargeting(optKey) {
     this.gptSlot.clearTargeting(optKey);
@@ -110,9 +115,9 @@ class Slot {
    * Sets an array of mappings from a minimum viewport size to slot size for this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_defineSizeMapping
    *
-   * @param {Array} sizeMapping - Array of size mappings.
+   * @param {!Array} sizeMapping - Array of size mappings.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   defineSizeMapping(sizeMapping) {
     this.gptSlot.defineSizeMapping(sizeMapping);
@@ -123,9 +128,9 @@ class Slot {
    * Returns the value for the AdSense attribute associated with the given key.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_get
    *
-   * @param {string} key - Name of the attribute to look for.
+   * @param {!string} key - Name of the attribute to look for.
    *
-   * @returns {string} - Current value for the attribute key, or null if the key is not present.
+   * @returns {?string} - Current value for the attribute key, or null if the key is not present.
    */
   get(key) {
     return this.gptSlot.get(key);
@@ -135,7 +140,7 @@ class Slot {
    * Returns the full path of the ad unit, with the network code and ad unit path.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getAdUnitPath
    *
-   * @returns {string} - Ad unit path.
+   * @returns {!string} - Ad unit path.
    */
   getAdUnitPath() {
     return this.gptSlot.getAdUnitPath();
@@ -145,7 +150,7 @@ class Slot {
    * Returns the list of attribute keys set on this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getAttributeKeys
    *
-   * @returns {Array<string>} - Array of attribute keys. Ordering is undefined.
+   * @returns {!Array<string>} - Array of attribute keys. Ordering is undefined.
    */
   getAttributeKeys() {
     return this.gptSlot.getAttributeKeys();
@@ -155,7 +160,7 @@ class Slot {
    * Returns the ad category exclusion labels for this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getCategoryExclusions
    *
-   * @returns {Array<string>} - The ad category exclusion labels for this slot.
+   * @returns {!Array<string>} - The ad category exclusion labels for this slot.
    */
   getCategoryExclusions() {
     return this.gptSlot.getCategoryExclusions();
@@ -166,7 +171,7 @@ class Slot {
    * If this is called when the slot has no ad, null will be returned.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getResponseInformation
    *
-   * @returns {Object}
+   * @returns {?Object}
    */
   getResponseInformation() {
     return this.gptSlot.getResponseInformation();
@@ -176,7 +181,7 @@ class Slot {
    * Returns the id (domId) of the slot element provided when the slot was defined.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getSlotElementId
    *
-   * @returns {string} - Slot element id (domId).
+   * @returns {!string} - Slot element id (domId).
    */
   getSlotElementId() {
     return this.gptSlot.getSlotElementId();
@@ -187,9 +192,9 @@ class Slot {
    * Service-level targeting parameters are not included.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getTargeting
    *
-   * @param {string} key - The targeting key to look for.
+   * @param {?string} key - The targeting key to look for.
    *
-   * @returns {Array<string>} - The values associated with this key, or an empty array if
+   * @returns {!Array<string>} - The values associated with this key, or an empty array if
    * there is no such key.
    */
   getTargeting(key) {
@@ -201,7 +206,7 @@ class Slot {
    * are not included.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_getTargetingKeys
    *
-   * @returns {Array<string>} - Array of targeting keys. Ordering is undefined.
+   * @returns {!Array<string>} - Array of targeting keys. Ordering is undefined.
    */
   getTargetingKeys() {
     return this.gptSlot.getTargetingKeys();
@@ -212,10 +217,10 @@ class Slot {
    * This will override any values set at the service level for this key.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_set
    *
-   * @param {string} key - The name of the attribute.
-   * @param {string} value - Attribute value.
+   * @param {!string} key - The name of the attribute.
+   * @param {!string} value - Attribute value.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   set(key, value) {
     this.gptSlot.set(key, value);
@@ -226,9 +231,9 @@ class Slot {
    * Sets a slot-level ad category exclusion label on this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setCategoryExclusion
    *
-   * @param {string} categoryExclusion - The ad category exclusion label to add.
+   * @param {!string} categoryExclusion - The ad category exclusion label to add.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setCategoryExclusion(categoryExclusion) {
     this.gptSlot.setCategoryExclusion(categoryExclusion);
@@ -239,9 +244,9 @@ class Slot {
    * Sets the click URL to which users will be redirected after clicking on the ad.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setClickUrl
    *
-   * @param {string} value -  The click URL to set.
+   * @param {!string} value -  The click URL to set.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setClickUrl(value) {
     this.gptSlot.setClickUrl(value);
@@ -253,11 +258,11 @@ class Slot {
    * This overrides the service-level settings.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setCollapseEmptyDiv
    *
-   * @param {boolean} collapse - Whether to collapse the slot if no ad is returned.
+   * @param {!boolean} collapse - Whether to collapse the slot if no ad is returned.
    * @param {?boolean} optCollapseBeforeAdFetch - Whether to collapse the slot even before
    * an ad is fetched. Ignored if collapse is not true.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setCollapseEmptyDiv(collapse, optCollapseBeforeAdFetch = null) {
     this.gptSlot.setCollapseEmptyDiv(collapse, optCollapseBeforeAdFetch);
@@ -269,11 +274,11 @@ class Slot {
    * container.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setForceSafeFrame
    *
-   * @param forceSafeFrame {boolean} - true to force all ads in this slot to be rendered in
+   * @param {!boolean} forceSafeFrame - true to force all ads in this slot to be rendered in
    * SafeFrames and false to opt-out of a page-level setting (if present). Setting this to false
    * when not specified at page-level, won't change anything.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setForceSafeFrame(forceSafeFrame) {
     this.gptSlot.setForceSafeFrame(forceSafeFrame);
@@ -284,9 +289,9 @@ class Slot {
    * Sets the slot-level preferences for SafeFrame configuration.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setSafeFrameConfig
    *
-   * @param config {Object} - The configuration object.
+   * @param {!Object} config - The configuration object.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setSafeFrameConfig(config) {
     this.gptSlot.setSafeFrameConfig(config);
@@ -296,10 +301,10 @@ class Slot {
   /**
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_setTargeting
    *
-   * @param key {string} - Targeting parameter key.
-   * @param value {string|Array<string>} - Targeting parameter value or array of values.
+   * @param key {!string} - Targeting parameter key.
+   * @param value {string|!Array<string>} - Targeting parameter value or array of values.
    *
-   * @returns {Slot}
+   * @returns {!Slot}
    */
   setTargeting(key, value) {
     this.gptSlot.setTargeting(key, value);

@@ -9,16 +9,17 @@ let slotDomIdPrefix = 'wbgpt-';
 /**
  * Get the slotDomIdPrefix that is used when auto-generating domIds
  *
- * @returns {string}
+ * @returns {!string}
  */
 function getSlotDomIdPrefix() {
   return slotDomIdPrefix;
 }
+
 /**
  * If a domId is not supplied during construction, one will be generated using
  * slotDomIdPrefix and slotIndex. Use this function to set the slotDomIdPrefix.
  *
- * @param {string} newSlotDomIdPrefix - the new slotDomIdPrefix to be used
+ * @param {!string} newSlotDomIdPrefix - the new slotDomIdPrefix to be used
  */
 function setSlotDomIdPrefix(newSlotDomIdPrefix) {
   slotDomIdPrefix = newSlotDomIdPrefix;
@@ -27,10 +28,10 @@ function setSlotDomIdPrefix(newSlotDomIdPrefix) {
 /**
  * Creates an out of page (interstitial) slot
  *
- * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
+ * @param {!string} adUnitPath - Full path of the ad unit with the network code and unit code.
  * @param {?number} id - ID of the div that will contain this ad unit.
  *
- * @returns {Slot}
+ * @returns {!Slot}
  */
 function createOutOfPageSlot(adUnitPath, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
@@ -45,11 +46,11 @@ function createOutOfPageSlot(adUnitPath, id = null) {
 /**
  * Creates a standard slot
  *
- * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
- * @param {array} sizeMap - Width and height of the added slot.
+ * @param {!string} adUnitPath - Full path of the ad unit with the network code and unit code.
+ * @param {!array} sizeMap - Width and height of the added slot.
  * @param {?number} id - ID of the div that will contain this ad unit.
  *
- * @returns {Slot}
+ * @returns {!Slot}
  */
 function createSlot(adUnitPath, sizeMap, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
@@ -64,7 +65,7 @@ function createSlot(adUnitPath, sizeMap, id = null) {
 /**
  * Get all wbgpt slots
  *
- * @returns {Object}
+ * @returns {!Object}
  */
 function getSlots() {
   return slots.values();
@@ -73,9 +74,9 @@ function getSlots() {
 /**
  * Get wbgpt slot by id
  *
- * @param {string} id - slot dom id
+ * @param {!string} id - slot dom id
  *
- * @returns {Slot}
+ * @returns {!Slot}
  */
 function getSlotById(id) {
   return slots.get(id);
@@ -84,9 +85,9 @@ function getSlotById(id) {
 /**
  * Get wbgpt slot by id - only works for slots that were given auto-generated domIds
  *
- * @param {number} index - slot number
+ * @param {!number} index - slot number
  *
- * @returns {Slot}
+ * @returns {!Slot}
  */
 function getSlotByIndex(index) {
   return slots.get(`${slotDomIdPrefix}${index}`);
@@ -95,7 +96,7 @@ function getSlotByIndex(index) {
 /**
  * Returns displayProvider
  *
- * @returns {displayProvider}
+ * @returns {!displayProvider}
  */
 function getDisplayProvider() {
   return displayProvider;
@@ -104,7 +105,7 @@ function getDisplayProvider() {
 /**
  * This overwrites the function that will call display() and pubads().refresh()
  *
- * @param newDisplayProvider {Object} - some display provider, googletag or something like it
+ * @param newDisplayProvider {!Object} - some display provider, googletag or something like it
  */
 function setDisplayProvider(newDisplayProvider) {
   displayProvider = newDisplayProvider;
@@ -113,7 +114,7 @@ function setDisplayProvider(newDisplayProvider) {
 /**
  * Display slot by domId
  *
- * @param {string} domId - slot domId
+ * @param {!string} domId - slot domId
  */
 function display(domId) {
   displayProvider.display(domId);
@@ -122,7 +123,7 @@ function display(domId) {
 /**
  * Display slot by index - only works for slots that were given auto-generated domIds
  *
- * @param {number} index - slot number
+ * @param {!number} index - slot number
  */
 function displayByIndex(index) {
   displayProvider.display(getSlotByIndex(index).getSlotElementId());
@@ -138,7 +139,7 @@ function refreshAllSlots() {
 /**
  * Refresh slot by id
  *
- * @param {string} id - slot dom id
+ * @param {!string} id - slot dom id
  */
 function refreshSlotById(id) {
   displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
@@ -147,7 +148,7 @@ function refreshSlotById(id) {
 /**
  * Refresh slot by index - only works for slots that were given auto-generated domIds
  *
- * @param {float} index - slot number
+ * @param {!float} index - slot number
  */
 function refreshSlotByIndex(index) {
   displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);

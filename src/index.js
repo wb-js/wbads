@@ -83,17 +83,6 @@ function getSlotById(id) {
 }
 
 /**
- * Get wbgpt slot by id - only works for slots that were given auto-generated domIds
- *
- * @param {!number} index - slot number
- *
- * @returns {!Slot}
- */
-function getSlotByIndex(index) {
-  return slots.get(`${slotDomIdPrefix}${index}`);
-}
-
-/**
  * Returns displayProvider
  *
  * @returns {!displayProvider}
@@ -121,15 +110,6 @@ function display(domId) {
 }
 
 /**
- * Display slot by index - only works for slots that were given auto-generated domIds
- *
- * @param {!number} index - slot number
- */
-function displayByIndex(index) {
-  displayProvider.display(getSlotByIndex(index).getSlotElementId());
-}
-
-/**
  * Refresh all slots
  */
 function refreshAllSlots() {
@@ -145,26 +125,15 @@ function refreshSlotById(id) {
   displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
 }
 
-/**
- * Refresh slot by index - only works for slots that were given auto-generated domIds
- *
- * @param {!float} index - slot number
- */
-function refreshSlotByIndex(index) {
-  displayProvider.pubads().refresh([getSlotByIndex(index).getGptSlot()]);
-}
-
 export default {
   createOutOfPageSlot,
   createSlot,
   display,
-  displayByIndex,
   getSlots,
   getSlotById,
   getSlotByIndex,
   refreshAllSlots,
   refreshSlotById,
-  refreshSlotByIndex,
   getDisplayProvider,
   setDisplayProvider,
   getSlotDomIdPrefix,

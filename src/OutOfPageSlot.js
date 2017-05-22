@@ -10,7 +10,6 @@ class OutOfPageSlot extends Slot {
    */
   constructor(adUnitPath, domId) {
     super(adUnitPath, null, domId);
-    this.config.isInterstitial = true;
   }
 
   /**

@@ -8,11 +8,11 @@ test('Slot test', (t) => {
     size: [300, 250],
   };
   const slot = new Slot(slotConfig.adUnitPath, slotConfig.size, slotConfig.domId);
-  t.deepEqual(typeof slot, 'object', 'used default Slot constructor to make slot');
+  t.deepEqual(slot instanceof Slot, true, 'default Slot constructor did not make slot as an instance of Slot');
 
-  t.deepEqual(slot.getConfig().adUnitPath, slotConfig.adUnitPath, `slot has expected adUnitPath: '${slotConfig.adUnitPath}'`);
-  t.deepEqual(slot.getConfig().domId, slotConfig.domId, `slot has expected domId: '${slotConfig.domId}'`);
-  t.deepEqual(slot.getConfig().size, slotConfig.size, `slot has expected size: '${slotConfig.size}'`);
+  t.deepEqual(slot.getConfig().adUnitPath, slotConfig.adUnitPath, `slot does not have expected adUnitPath: '${slotConfig.adUnitPath}'`);
+  t.deepEqual(slot.getConfig().domId, slotConfig.domId, `slot does not have expected domId: '${slotConfig.domId}'`);
+  t.deepEqual(slot.getConfig().size, slotConfig.size, `slot does not have expected size: '${slotConfig.size}'`);
 
   t.end();
 });

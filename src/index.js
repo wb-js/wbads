@@ -45,6 +45,26 @@ function setDisplayProvider(newDisplayProvider) {
 }
 
 /**
+ * Get all wbgpt slots
+ *
+ * @returns {Object}
+ */
+function getSlots() {
+  return slots.values();
+}
+
+/**
+ * Get wbgpt slot by id
+ *
+ * @param {string} id - slot dom id
+ *
+ * @returns {Slot}
+ */
+function getSlotById(id) {
+  return slots.get(id);
+}
+
+/**
  * Creates an out of page (interstitial) slot
  *
  * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
@@ -82,39 +102,19 @@ function createSlot(adUnitPath, size, id = null) {
 }
 
 /**
- * Get all wbgpt slots
- *
- * @returns {Object}
- */
-function getSlots() {
-  return slots.values();
-}
-
-/**
- * Get wbgpt slot by id
- *
- * @param {string} id - slot dom id
- *
- * @returns {Slot}
- */
-function getSlotById(id) {
-  return slots.get(id);
-}
-
-/**
  * Display slot by domId
  *
  * @param {string} domId - slot domId
  */
 function display(domId) {
-  displayProvider.provider.display(domId);
+  displayProvider.display(domId);
 }
 
 /**
  * Refresh all slots
  */
 function refreshAllSlots() {
-  displayProvider.provider.pubads().refresh();
+  displayProvider.pubads().refresh();
 }
 
 /**
@@ -123,7 +123,7 @@ function refreshAllSlots() {
  * @param {string} id - slot dom id
  */
 function refreshSlotById(id) {
-  displayProvider.provider.pubads().refresh([getSlotById(id).getGptSlot()]);
+  displayProvider.refresh(getSlotById(id).getGptSlot());
 }
 
 export default {

@@ -11,7 +11,6 @@ test('outOfPageSlot test', (t) => {
 
   t.deepEqual(outOfPageSlot.getConfig().adUnitPath, slotConfig.adUnitPath, `outOfPageSlot has expected adUnitPath: '${slotConfig.adUnitPath}'`);
   t.deepEqual(outOfPageSlot.getConfig().domId, slotConfig.domId, `outOfPageSlot has expected domId: '${slotConfig.domId}'`);
-  t.deepEqual(outOfPageSlot.getConfig().isInterstitial, true, 'outOfPageSlot is correctly registered as an interstitial slot');
 
   t.end();
 });

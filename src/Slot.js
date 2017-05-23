@@ -4,24 +4,24 @@ class Slot {
    * Slot Constructor
    *
    * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
-   * @param {Array|null} sizeMap -  Width and height of the added slot. This is the size that is
+   * @param {Array|null} size -  Width and height of the added slot. This is the size that is
    * used in the ad request if no responsive size mapping is provided or the size of the viewport
    * is smaller than the smallest size provided in the mapping.
    * @param {string} domId - ID of the div that will contain this ad unit.
    */
-  constructor(adUnitPath, sizeMap, domId) {
+  constructor(adUnitPath, size, domId) {
     this.config = {
       adUnitPath,
       domId,
     };
-    if (sizeMap) {
-      this.config.sizeMap = sizeMap;
+    if (size) {
+      this.config.size = size;
     }
   }
 
   /**
-   * Returns config including adUnitPath, sizeMap (if present), and domId
-   * ex: {adUnitPath: '/1234567/sports', sizeMap: [728, 90], domId: 'wbgpt-1'}
+   * Returns config including adUnitPath, size (if present), and domId
+   * ex: {adUnitPath: '/1234567/sports', size: [728, 90], domId: 'wbgpt-1'}
    *
    * @returns {Object}
    */
@@ -35,12 +35,14 @@ class Slot {
    * @returns {Slot}
    */
   createGptSlot() {
+    /* eslint-disable no-undef */
     this.gptSlot = googletag.defineSlot(
       this.config.adUnitPath,
-      this.config.sizeMap,
+      this.config.size,
       this.config.domId,
     );
     this.gptSlot.addService(googletag.pubads());
+    /* eslint-enable no-undef */
     return this;
   }
 
@@ -51,26 +53,6 @@ class Slot {
    */
   getGptSlot() {
     return this.gptSlot;
-  }
-
-  /**
-   * Displays slot using displayProvider
-   *
-   * @returns {Slot}
-   */
-  display() {
-    displayProvider.display(this.config.domId);
-    return this;
-  }
-
-  /**
-   * Refreshes slot using displayProvider
-   *
-   * @returns {Slot}
-   */
-  refresh() {
-    displayProvider.pubads().refresh([this.gptSlot]);
-    return this;
   }
 
   /**

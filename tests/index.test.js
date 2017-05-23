@@ -10,10 +10,10 @@ test('wbgpt test', (t) => {
   t.deepEqual(wbgpt.getSlotDomIdPrefix(), newPrefix, `setSlotDomIdPrefix set prefix to '${newPrefix}'`);
 
   const slotAdUnitPath = '/1234/slot/path';
-  const slotSizeMap = [300, 250];
+  const slotSize = [300, 250];
   const slotDomId = 'slot-dom-id-1';
 
-  const slot = wbgpt.createSlot(slotAdUnitPath, slotSizeMap, slotDomId);
+  const slot = wbgpt.createSlot(slotAdUnitPath, slotSize, slotDomId);
   t.deepEqual(typeof slot, 'object', 'createSlot created slot');
 
   const outOfPageSlotAdUnitPath = '/1234/out-of-page-slot/path';
@@ -26,14 +26,10 @@ test('wbgpt test', (t) => {
   t.deepEqual(slotById, outOfPageSlot, 'getSlotById got slot by id');
 
   const autoSlotAdUnitPath = '/1234/auto-slot/path';
-  const autoSlotSizeMap = [[728, 90], [300, 250]];
+  const autoSlotSize = [[728, 90], [300, 250]];
 
-  const autoSlot = wbgpt.createSlot(autoSlotAdUnitPath, autoSlotSizeMap);
+  const autoSlot = wbgpt.createSlot(autoSlotAdUnitPath, autoSlotSize);
   t.deepEqual(typeof autoSlot, 'object', 'createSlot created with auto-generated domId');
-
-  // auto-generated id should be 'new-prefix-3' with index 3
-  const slotByIndex = wbgpt.getSlotByIndex(3);
-  t.deepEqual(slotByIndex, autoSlot, 'getSlotByIndex got slot by index');
 
   t.deepEqual(typeof wbgpt.getDisplayProvider(), 'undefined', 'getDisplayProvider shows displayProvider undefined by default');
 
@@ -46,7 +42,7 @@ test('wbgpt test', (t) => {
   let currentSlot = slots.next();
 
   t.deepEqual(currentSlot.value.config.adUnitPath, slotAdUnitPath, `used getSlots to return adUnitPath: '${slotAdUnitPath}'`);
-  t.deepEqual(currentSlot.value.config.sizeMap, slotSizeMap, `used getSlots to return sizeMap: '${slotSizeMap}'`);
+  t.deepEqual(currentSlot.value.config.size, slotSize, `used getSlots to return size: '${slotSize}'`);
   t.deepEqual(currentSlot.value.config.domId, slotDomId, `used getSlots to return domId: '${slotDomId}'`);
 
   currentSlot = slots.next();
@@ -55,7 +51,7 @@ test('wbgpt test', (t) => {
 
   currentSlot = slots.next();
   t.deepEqual(currentSlot.value.config.adUnitPath, autoSlotAdUnitPath, `used getSlots to return adUnitPath: '${autoSlotAdUnitPath}'`);
-  t.deepEqual(currentSlot.value.config.sizeMap, autoSlotSizeMap, `used getSlots to return sizeMap: '${autoSlotSizeMap}'`);
+  t.deepEqual(currentSlot.value.config.size, autoSlotSize, `used getSlots to return size: '${autoSlotSize}'`);
   t.deepEqual(currentSlot.value.config.domId, 'new-prefix-3', 'used getSlots to return domId: \'new-prefix-3\'');
   t.end();
 });

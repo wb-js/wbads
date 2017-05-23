@@ -1,8 +1,9 @@
 import Slot from './Slot';
 import OutOfPageSlot from './OutOfPageSlot';
+import DisplayProvider from './DisplayProvider';
 
 const slots = new Map();
-let displayProvider;
+const displayProvider = new DisplayProvider();
 let slotIndex = 1;
 let slotDomIdPrefix = 'wbgpt-';
 
@@ -23,6 +24,24 @@ function getSlotDomIdPrefix() {
  */
 function setSlotDomIdPrefix(newSlotDomIdPrefix) {
   slotDomIdPrefix = newSlotDomIdPrefix;
+}
+
+/**
+ * Returns displayProvider
+ *
+ * @returns {Function}
+ */
+function getDisplayProvider() {
+  return displayProvider.get();
+}
+
+/**
+ * This overwrites the function that will call display() and pubads().refresh()
+ *
+ * @param {Function} newDisplayProvider - some display provider, googletag or something like it
+ */
+function setDisplayProvider(newDisplayProvider) {
+  displayProvider.set(newDisplayProvider);
 }
 
 /**
@@ -47,16 +66,16 @@ function createOutOfPageSlot(adUnitPath, id = null) {
  * Creates a standard slot
  *
  * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
- * @param {array} sizeMap - Width and height of the added slot.
+ * @param {array} size - Width and height of the added slot.
  * @param {?string} id - ID of the div that will contain this ad unit.
  *
  * @returns {Slot}
  */
-function createSlot(adUnitPath, sizeMap, id = null) {
+function createSlot(adUnitPath, size, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
   slotIndex += 1;
 
-  const slot = new Slot(adUnitPath, sizeMap, domId);
+  const slot = new Slot(adUnitPath, size, domId);
   slots.set(domId, slot);
 
   return slot;
@@ -83,37 +102,19 @@ function getSlotById(id) {
 }
 
 /**
- * Returns displayProvider
- *
- * @returns {Function}
- */
-function getDisplayProvider() {
-  return displayProvider;
-}
-
-/**
- * This overwrites the function that will call display() and pubads().refresh()
- *
- * @param {Function} newDisplayProvider - some display provider, googletag or something like it
- */
-function setDisplayProvider(newDisplayProvider) {
-  displayProvider = newDisplayProvider;
-}
-
-/**
  * Display slot by domId
  *
  * @param {string} domId - slot domId
  */
 function display(domId) {
-  displayProvider.display(domId);
+  displayProvider.provider.display(domId);
 }
 
 /**
  * Refresh all slots
  */
 function refreshAllSlots() {
-  displayProvider.pubads().refresh();
+  displayProvider.provider.pubads().refresh();
 }
 
 /**
@@ -122,7 +123,7 @@ function refreshAllSlots() {
  * @param {string} id - slot dom id
  */
 function refreshSlotById(id) {
-  displayProvider.pubads().refresh([getSlotById(id).getGptSlot()]);
+  displayProvider.provider.pubads().refresh([getSlotById(id).getGptSlot()]);
 }
 
 export default {

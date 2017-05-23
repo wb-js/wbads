@@ -18,8 +18,10 @@ class OutOfPageSlot extends Slot {
    * @returns {OutOfPageSlot}
    */
   createGptSlot() {
+    /* eslint-disable no-undef */
     this.gptSlot = googletag.defineOutOfPageSlot(this.config.adUnitPath, this.config.domId);
     this.gptSlot.addService(googletag.pubads());
+    /* eslint-enable no-undef */
     return this;
   }
 }

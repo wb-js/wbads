@@ -103,6 +103,7 @@ class Slot {
    */
   defineSizeMapping(sizeMapping) {
     this.gptSlot.defineSizeMapping(sizeMapping);
+    this.config.sizeMapping = sizeMapping;
     return this;
   }
 

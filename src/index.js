@@ -132,7 +132,7 @@ function display(domId) {
  * Refresh all slots
  */
 function refreshAllSlots() {
-  displayProvider.pubads().refresh();
+  displayProvider.refreshAllSlots();
 }
 
 /**

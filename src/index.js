@@ -76,6 +76,15 @@ function createOutOfPageSlot(adUnitPath, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
   slotIndex += 1;
 
+  // destroy slot if already exists
+  if (getSlotById(domId)) {
+    // eslint-disable-next-line no-undef
+    googletag.destroySlots([
+      getSlotById(domId).getGptSlot(),
+    ]);
+    slots.delete(domId);
+  }
+
   const slot = new OutOfPageSlot(adUnitPath, domId);
   slots.set(domId, slot);
 
@@ -94,6 +103,15 @@ function createOutOfPageSlot(adUnitPath, id = null) {
 function createSlot(adUnitPath, size, id = null) {
   const domId = id || `${slotDomIdPrefix}${slotIndex}`;
   slotIndex += 1;
+
+  // destroy slot if already exists
+  if (getSlotById(domId)) {
+    // eslint-disable-next-line no-undef
+    googletag.destroySlots([
+      getSlotById(domId).getGptSlot(),
+    ]);
+    slots.delete(domId);
+  }
 
   const slot = new Slot(adUnitPath, size, domId);
   slots.set(domId, slot);

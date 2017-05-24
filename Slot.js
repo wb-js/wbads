@@ -1,6 +1,6 @@
 export default class Slot {
   /**
-   * @param {*}      googletag  - The googletag service (can be curried/decorated)
+   * @param {Object} gptSlot    - A googletag.Slot instance.
    * @param {string} adUnitPath - Full path of the ad unit with the network code and unit code.
    * @param {?Array} size       - Width and height of the added slot. This is the size that is
    *                              used in the ad request if no responsive size mapping is provided
@@ -8,8 +8,8 @@ export default class Slot {
    *                              provided in the mapping.
    * @param {string} divId      - ID of the div that will contain this ad unit.
    */
-  constructor(googletag, adUnitPath, size, divId) {
-    this.googletag = googletag;
+  constructor(gptSlot, adUnitPath, size, divId) {
+    this.gptSlot = gptSlot;
     this.config = {
       adUnitPath,
       divId
@@ -18,18 +18,6 @@ export default class Slot {
     if (size) {
       this.config.size = size;
     }
-
-    this.createGptSlot();
-    this.addService(this.googletag.pubads());
-  }
-
-  /**
-   * @link https://developers.google.com/doubleclick-gpt/reference#googletag.defineSlot
-   *
-   * @private
-   */
-  createGptSlot() {
-    this.gptSlot = this.googletag.defineSlot(this.config.adUnitPath, this.config.size, this.config.divId);
   }
 
   /**

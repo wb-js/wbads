@@ -1,16 +1,20 @@
 import test from 'tape';
+import googletag from './mocks/googletag';
 import OutOfPageSlot from '../src/OutOfPageSlot';
+import Slot from '../src/Slot';
 
-test('OutOfPageSlot test', (t) => {
-  const slotConfig = {
+test('OutOfPageSlot tests', (assert) => {
+  const config = {
     adUnitPath: '/default/out-of-page-slot/path',
-    domId: 'test-dom-id-1',
+    divId: 'test-dom-id-1',
   };
-  const outOfPageSlot = new OutOfPageSlot(slotConfig.adUnitPath, slotConfig.domId);
-  t.deepEqual(outOfPageSlot instanceof OutOfPageSlot, true, 'default OutOfPageSlot constructor did not make outOfPageSlot as an instance of OutOfPageSlot');
 
-  t.deepEqual(outOfPageSlot.getConfig().adUnitPath, slotConfig.adUnitPath, `outOfPageSlot does not have expected adUnitPath: '${slotConfig.adUnitPath}'`);
-  t.deepEqual(outOfPageSlot.getConfig().domId, slotConfig.domId, `outOfPageSlot does not have expected domId: '${slotConfig.domId}'`);
+  const mySlot = new OutOfPageSlot(googletag, config.adUnitPath, null, config.divId);
 
-  t.end();
+  assert.true(mySlot instanceof OutOfPageSlot, 'slot should be an instanceof OutOfPageSlot');
+  assert.true(mySlot instanceof Slot, 'mySlot should be an instanceof Slot');
+  assert.same(mySlot.getConfig().adUnitPath, config.adUnitPath);
+  assert.same(mySlot.getConfig().divId, config.divId);
+
+  assert.end();
 });

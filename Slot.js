@@ -12,7 +12,7 @@ export default class Slot {
     this.googletag = googletag;
     this.config = {
       adUnitPath,
-      divId,
+      divId
     };
 
     if (size) {
@@ -29,9 +29,7 @@ export default class Slot {
    * @private
    */
   createGptSlot() {
-    this.gptSlot = this.googletag.defineSlot(
-      this.config.adUnitPath, this.config.size, this.config.divId,
-    );
+    this.gptSlot = this.googletag.defineSlot(this.config.adUnitPath, this.config.size, this.config.divId);
   }
 
   /**

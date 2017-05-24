@@ -137,5 +137,5 @@ export default {
   displaySlotById,
   refreshAllSlots,
   refreshSlotById,
-  displayProvider,
+  displayProvider
 };

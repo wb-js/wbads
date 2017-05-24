@@ -1,18 +1,20 @@
 import test from 'tape';
+import googletag from './mocks/googletag';
 import Slot from '../src/Slot';
 
-test('Slot test', (t) => {
-  const slotConfig = {
+test('Slot tests', (assert) => {
+  const config = {
     adUnitPath: '/default/slot/path',
-    domId: 'test-dom-id-2',
+    divId: 'test-dom-id-2',
     size: [300, 250],
   };
-  const slot = new Slot(slotConfig.adUnitPath, slotConfig.size, slotConfig.domId);
-  t.deepEqual(slot instanceof Slot, true, 'default Slot constructor did not make slot as an instance of Slot');
 
-  t.deepEqual(slot.getConfig().adUnitPath, slotConfig.adUnitPath, `slot does not have expected adUnitPath: '${slotConfig.adUnitPath}'`);
-  t.deepEqual(slot.getConfig().domId, slotConfig.domId, `slot does not have expected domId: '${slotConfig.domId}'`);
-  t.deepEqual(slot.getConfig().size, slotConfig.size, `slot does not have expected size: '${slotConfig.size}'`);
+  const mySlot = new Slot(googletag, config.adUnitPath, config.size, config.divId);
+  assert.true(mySlot instanceof Slot, 'mySlot should be an instanceof Slot');
 
-  t.end();
+  assert.same(mySlot.getConfig().adUnitPath, config.adUnitPath);
+  assert.same(mySlot.getConfig().divId, config.divId);
+  assert.same(mySlot.getConfig().size, config.size);
+
+  assert.end();
 });

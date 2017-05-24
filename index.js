@@ -210,6 +210,9 @@ class WbGpt {
 
     return this;
   }
+
+  // fixme: add setGlobalTargeting(key, value) with sanitize/filter
+  // to these keys to match out standards
 }
 
 /** @var WbGpt */

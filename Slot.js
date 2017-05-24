@@ -274,6 +274,7 @@ export default class Slot {
    * @returns {Slot}
    */
   setTargeting(key, value) {
+    // fixme: add sanitize/filter to these keys to match out standards
     this.gptSlot.setTargeting(key, value);
     return this;
   }

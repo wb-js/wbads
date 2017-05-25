@@ -1,3 +1,24 @@
+// trim, toLower, convert diacritics, remove special chars, convert 1-n spaces to '-'
+function sanitize(thing) {
+  return thing.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/gi, '')
+    .replace(/\s+/, '-');
+}
+
+function processTargeting(thing) {
+  if (typeof thing !== 'string' && !Array.isArray(thing)) {
+    return null;
+  }
+
+  if (typeof thing === 'string') {
+    return sanitize(thing);
+  } else if (Array.isArray(thing)) {
+    return thing.map(item => sanitize(item));
+  }
+
+  return null;
+}
+
 export default class Slot {
   /**
    * @param {Object} gptSlot    - A googletag.Slot instance.
@@ -274,8 +295,10 @@ export default class Slot {
    * @returns {Slot}
    */
   setTargeting(key, value) {
-    // fixme: add sanitize/filter to these keys to match out standards
-    this.gptSlot.setTargeting(key, value);
+    const processedKey = processTargeting(key);
+    const processedValue = processTargeting(value);
+    this.gptSlot.setTargeting(processedKey, processedValue);
+
     return this;
   }
 }

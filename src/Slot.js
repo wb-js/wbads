@@ -74,7 +74,7 @@ export default class Slot {
    *
    * @returns {Slot}
    */
-  clearTargeting(optKey) {
+  clearTargeting(optKey = null) {
     this.gptSlot.clearTargeting(optKey);
     return this;
   }

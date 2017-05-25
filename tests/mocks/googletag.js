@@ -44,13 +44,63 @@ function defineSlot(adUnitPath, size, divId) {
     size,
     divId,
     targeting: {},
+    attributeKeys: {},
+    categoryExclusions: [],
+    responseInformation: 'responseInformation',
     addService() {
+    },
+    defineSizeMapping() {
+    },
+    setClickUrl() {
+    },
+    setCollapseEmptyDiv() {
+    },
+    setForceSafeFrame() {
+    },
+    setSafeFrameConfig() {
+    },
+    get(key) {
+      return this.attributeKeys[key];
+    },
+    getAdUnitPath() {
+      return adUnitPath;
+    },
+    getAttributeKeys() {
+      return Object.keys(this.attributeKeys);
     },
     setTargeting(key, value) {
       this.targeting[key] = value;
     },
     getTargeting(key) {
       return this.targeting[key] || null;
+    },
+    getTargetingKeys() {
+      return Object.keys(this.targeting);
+    },
+    clearTargeting(optKey = null) {
+      if (optKey) {
+        delete this.targeting[optKey];
+      } else {
+        this.targeting = {};
+      }
+    },
+    set(key, value) {
+      this.attributeKeys[key] = value;
+    },
+    setCategoryExclusion(categoryExclusion) {
+      this.categoryExclusions.push(categoryExclusion);
+    },
+    getCategoryExclusions() {
+      return this.categoryExclusions;
+    },
+    clearCategoryExclusions() {
+      this.categoryExclusions = [];
+    },
+    getSlotElementId() {
+      return this.divId;
+    },
+    getResponseInformation() {
+      return this.responseInformation;
     },
   };
 }

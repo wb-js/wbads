@@ -3,7 +3,7 @@ import test from 'tape';
 import wbgpt from '../src/index';
 import Slot from '../src/Slot';
 import OutOfPageSlot from '../src/OutOfPageSlot';
-import googletag, { getRefreshCalledStack } from './mocks/googletag';
+import googletag, { getRefreshCalledStack, wasDisplayCalledForDivId } from './mocks/googletag';
 
 test('wbgpt tests', (t) => {
   t.comment('basic property assertions.');
@@ -21,10 +21,7 @@ test('wbgpt tests', (t) => {
   t.same(stdSlot.getConfig().size, [300, 250]);
   t.same(stdSlot.getConfig().divId, 'newprefix-1');
   t.same(wbgpt().getSlotById(stdSlot.getConfig().divId), stdSlot);
-
-  t.comment('destroy Slot assertions');
-  wbgpt().destroySlotById(stdSlot.getConfig().divId);
-  t.same(wbgpt().getSlotById(stdSlot.getConfig().divId), undefined);
+  t.same(wbgpt().getSlots(), [stdSlot]);
 
   t.comment('OutOfPageSlot assertions');
   const oopSlot = wbgpt().createOutOfPageSlot('/1234/oopslot/path').setTargeting('moar', 'spice');
@@ -36,11 +33,25 @@ test('wbgpt tests', (t) => {
   t.same(oopSlot.getConfig().size, undefined);
   t.same(oopSlot.getConfig().divId, 'newprefix-2');
   t.same(wbgpt().getSlotById(oopSlot.getConfig().divId), oopSlot);
+  t.same(wbgpt().getSlots(), [stdSlot, oopSlot]);
+
+  t.comment('destroy Slot assertions');
+  wbgpt().destroySlotById(stdSlot.getConfig().divId);
+  t.same(wbgpt().getSlotById(stdSlot.getConfig().divId), undefined);
 
   t.comment('destroy OutOfPageSlot assertions');
   wbgpt().destroySlotById(oopSlot.getConfig().divId);
   t.same(wbgpt().getSlotById(oopSlot.getConfig().divId), undefined);
 
+  wbgpt().displaySlotById('wbgpt-1');
+  t.same(wasDisplayCalledForDivId('wbgpt-1'), true);
+
+  const stdSlot2 = wbgpt().createSlot('/1234/slot/path', [300, 250]).setTargeting('taco', 'spice');
+  const oopSlot2 = wbgpt().createOutOfPageSlot('/1234/oopslot/path').setTargeting('moar', 'spice');
+
+  t.same(wbgpt().getSlots(), [stdSlot2, oopSlot2]);
+  wbgpt().destroyAllSlots();
+  t.same(wbgpt().getSlots(), []);
 
   // const defaultPrefix = 'wbgpt-';
   // t.deepEqual(wbgpt.getSlotDivIdPrefix(), defaultPrefix, `getSlotDivIdPrefix did not return default prefix of '${defaultPrefix}'`);
@@ -97,7 +108,8 @@ test('wbgpt refresh tests', (t) => {
   wbgpt().createSlot('/slot1', [300, 250]);
   wbgpt().createSlot('/slot2', [728, 90]);
   wbgpt().refreshAllSlots();
-  t.same(getRefreshCalledStack().length, 1);
+  wbgpt().refreshSlotById('newprefix-5');
+  t.same(getRefreshCalledStack().length, 2);
 
   t.end();
 });

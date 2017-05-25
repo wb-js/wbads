@@ -2,6 +2,7 @@
 
 import Slot from './Slot';
 import OutOfPageSlot from './OutOfPageSlot';
+import sanitize from './sanitize';
 
 const slots = new Map();
 let googletag;
@@ -215,6 +216,19 @@ class WbGpt {
 
   // fixme: add setGlobalTargeting(key, value) with sanitize/filter
   // to these keys to match out standards
+  /**
+   * @link https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_setTargeting
+   *
+   * @param {string}          key   - Targeting parameter key.
+   * @param {string|string[]} value - Targeting parameter value or array of values.
+   *
+   * @returns {Slot}
+   */
+  setTargeting(key, value) {
+    const sanitizedKey = sanitize(key);
+    const sanitizedValue = sanitize(value);
+    return googletag.pubads().setTargeting(sanitizedKey, sanitizedValue);
+  }
 }
 
 /** @var WbGpt */

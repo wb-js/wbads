@@ -1,23 +1,4 @@
-// trim, toLower, convert diacritics, remove special chars, convert 1-n spaces to '-'
-function sanitize(thing) {
-  return thing.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s]/gi, '')
-    .replace(/\s+/, '-');
-}
-
-function processTargeting(thing) {
-  if (typeof thing !== 'string' && !Array.isArray(thing)) {
-    return null;
-  }
-
-  if (typeof thing === 'string') {
-    return sanitize(thing);
-  } else if (Array.isArray(thing)) {
-    return thing.map(item => sanitize(item));
-  }
-
-  return null;
-}
+import sanitize from './sanitize';
 
 export default class Slot {
   /**
@@ -295,9 +276,9 @@ export default class Slot {
    * @returns {Slot}
    */
   setTargeting(key, value) {
-    const processedKey = processTargeting(key);
-    const processedValue = processTargeting(value);
-    this.gptSlot.setTargeting(processedKey, processedValue);
+    const sanitizedKey = sanitize(key);
+    const sanitizedValue = sanitize(value);
+    this.gptSlot.setTargeting(sanitizedKey, sanitizedValue);
 
     return this;
   }

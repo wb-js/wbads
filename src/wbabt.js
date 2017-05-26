@@ -11,6 +11,32 @@ let expiry;
 let cookieDomain;
 
 /**
+ * sets the cookie domain
+ */
+function setCookieDomain() {
+  cookieDomain = (document.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
+  return cookieDomain;
+}
+
+/**
+ * @param {string} newCookieName
+ */
+function setCookieName(newCookieName) {
+  cookieName = newCookieName;
+  return cookieName;
+}
+
+/**
+ * @param {int} newCookieExpires
+ */
+function setCookieExpires(newCookieExpires) {
+  cookieExpires = newCookieExpires;
+  expiry = new Date();
+  expiry.setDate(expiry.getDate() + cookieExpires);
+  return cookieExpires;
+}
+
+/**
  * Generates a random integer between 1 and 100
  * @returns {int}
  */
@@ -76,30 +102,7 @@ function get() {
   return (fromStorage() || generate()).toString();
 }
 
-/**
- * sets the cookie domain
- */
-function setCookieDomain() {
-  cookieDomain = (document.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
-}
-
-/**
- * @param {string} newCookieName
- */
-function setCookieName(newCookieName) {
-  cookieName = newCookieName;
-}
-
-/**
- * @param {float} newCookieExpires
- */
-function setCookieExpires(newCookieExpires) {
-  cookieExpires = newCookieExpires;
-  expiry = new Date();
-  expiry.setDate(expiry.getDate() + cookieExpires);
-}
-
-export {
+export default {
   get,
   setCookieDomain,
   setCookieExpires,

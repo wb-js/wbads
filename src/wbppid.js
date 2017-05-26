@@ -18,6 +18,7 @@ let cookieDomain;
  */
 function setCookieDomain() {
   cookieDomain = (document.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
+  return cookieDomain;
 }
 
 /**
@@ -25,6 +26,7 @@ function setCookieDomain() {
  */
 function setCookieName(newCookieName) {
   cookieName = newCookieName;
+  return cookieName;
 }
 
 /**
@@ -34,6 +36,7 @@ function setCookieExpires(newCookieExpires) {
   cookieExpires = newCookieExpires;
   expiry = new Date();
   expiry.setDate(expiry.getDate() + cookieExpires);
+  return cookieExpires;
 }
 
 /**
@@ -114,7 +117,7 @@ function get() {
   return fromStorage() || generate();
 }
 
-export {
+export default {
   get,
   setCookieDomain,
   setCookieExpires,

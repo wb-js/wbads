@@ -11,11 +11,11 @@ test('wbabt tests', (t) => {
   };
   global.document = {
     cookie: '',
-    domain: 'whatever.com',
+    domain: 'whateverabt.com',
   };
   t.same(wbabt.setCookieName('wbabt'), 'wbabt');
   t.same(wbabt.setCookieExpires(7), 7);
-  t.same(wbabt.setCookieDomain(), 'whatever.com');
+  t.same(wbabt.setCookieDomain(), 'whateverabt.com');
   t.true(wbabt.get() >= 1 && wbabt.get() <= 100);
   t.end();
 });

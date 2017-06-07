@@ -117,7 +117,7 @@ function get() {
   return fromStorage() || generate();
 }
 
-export default {
+export {
   get,
   setCookieDomain,
   setCookieExpires,

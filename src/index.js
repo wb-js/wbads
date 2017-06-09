@@ -9,6 +9,8 @@ let googletag;
 let displayProvider;
 let slotIndex = 1;
 let slotDivIdPrefix = 'wbgpt-';
+let servicesAreEnabled = false;
+let slotIdQueue = [];
 
 class WbGpt {
   /**
@@ -109,6 +111,22 @@ class WbGpt {
   }
 
   /**
+   * Enables googletag services and, if there are slots that have already had
+   * display called on them (adding them to the queue), displays them.
+   *
+   * @returns {WbGpt}
+   */
+  enableServices() {
+    googletag.enableServices();
+    servicesAreEnabled = true;
+    if (slotIdQueue.length !== 0) {
+      slotIdQueue.forEach(slotId => this.displaySlotById(slotId));
+      slotIdQueue = [];
+    }
+    return this;
+  }
+
+  /**
    * Returns all WbGpt managed slot objects.
    *
    * @returns {Slot[]}
@@ -130,7 +148,9 @@ class WbGpt {
   }
 
   /**
-   * Runs the standard googletag display for the given id via the displayProvider.
+   * Runs the standard googletag display for the given id via the displayProvider
+   * if services have been enabled. If they are have not, adds their id to the queue
+   * which will be processed when enableServices is called
    *
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.display
    *
@@ -139,7 +159,11 @@ class WbGpt {
    * @returns {WbGpt}
    */
   displaySlotById(id) {
-    displayProvider.display(id);
+    if (servicesAreEnabled) {
+      displayProvider.display(id);
+    } else {
+      slotIdQueue.push(id);
+    }
     return this;
   }
 

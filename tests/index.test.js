@@ -44,10 +44,15 @@ test('wbgpt tests', (t) => {
   t.same(wbgpt().getSlotById(oopSlot.getConfig().divId), undefined);
 
   wbgpt().displaySlotById('wbgpt-1');
+  t.same(wasDisplayCalledForDivId('wbgpt-1'), false); // because services haven't been enabled yet
+  wbgpt().enableServices();
   t.same(wasDisplayCalledForDivId('wbgpt-1'), true);
 
-  const stdSlot2 = wbgpt().createSlot('/1234/slot/path', [300, 250]).setTargeting('taco', 'spice');
+  const stdSlot2 = wbgpt().createSlot('/1234/slot/path', [300, 250], 'whatever-slot-1').setTargeting('taco', 'spice');
   const oopSlot2 = wbgpt().createOutOfPageSlot('/1234/oopslot/path').setTargeting('moar', 'spice');
+
+  wbgpt().displaySlotById('whatever-slot-1');
+  t.same(wasDisplayCalledForDivId('whatever-slot-1'), true);
 
   t.same(wbgpt().getSlots(), [stdSlot2, oopSlot2]);
   wbgpt().destroyAllSlots();

@@ -12,6 +12,12 @@ function display(divId) {
 }
 
 /**
+ * @link https://developers.google.com/doubleclick-gpt/reference#googletag.enableServices
+ */
+function enableServices() {
+}
+
+/**
  * @link https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_refresh
  *
  * @param {Array|null}  [slots]   - An array of GPT Slot(s) to be refreshed.
@@ -157,6 +163,7 @@ const googletag = {
   defineSlot,
   defineOutOfPageSlot,
   destroySlots,
+  enableServices,
   pubads() {
     return { refresh };
   },

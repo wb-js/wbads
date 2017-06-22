@@ -41,6 +41,20 @@ export default class Slot {
     return this.config;
   }
 
+
+  /**
+   * Adds new config property, or updates an existing one
+   *
+   * @param {string} key - name of new or existing config property
+   * @param {string} value - value for said key
+   *
+   * @returns {Slot}
+   */
+  updateConfig(key, value) {
+    this.config[key] = value;
+    return this;
+  }
+
   /**
    * Adds a service to this slot.
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.Slot_addService

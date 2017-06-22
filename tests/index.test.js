@@ -23,6 +23,9 @@ test('wbgpt tests', (t) => {
   t.same(wbgpt().getSlotById(stdSlot.getConfig().divId), stdSlot);
   t.same(wbgpt().getSlots(), [stdSlot]);
 
+  stdSlot.updateConfig('amazonSlot', false);
+  t.same(stdSlot.getConfig().amazonSlot, false);
+
   t.comment('OutOfPageSlot assertions');
   const oopSlot = wbgpt().createOutOfPageSlot('/1234/oopslot/path').setTargeting('moar', 'spice');
 

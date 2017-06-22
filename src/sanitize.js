@@ -6,14 +6,10 @@ function sanitize(thing) {
 }
 
 export default function processTargeting(thing) {
-  if (typeof thing !== 'string' && !Array.isArray(thing)) {
-    return null;
-  }
-
-  if (typeof thing === 'string') {
-    return sanitize(thing);
-  } else if (Array.isArray(thing)) {
-    return thing.map(item => sanitize(item));
+  if (Array.isArray(thing)) {
+    return thing.map(item => sanitize(item.toString()));
+  } else {
+    return sanitize(thing.toString());
   }
 
   return null;

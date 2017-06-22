@@ -9,5 +9,6 @@ test('sanitize tests', (t) => {
   t.same(sanitize('a  !@#$%^&*()   +~+-*/=  b'), 'a-b');
   t.same(sanitize('  a3-B  '), 'a3b');
   t.same(sanitize('diakrī́nō'), 'diakrino');
+  t.same(sanitize(3), '3');
   t.end();
 });

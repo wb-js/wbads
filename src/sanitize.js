@@ -1,8 +1,9 @@
 // trim, toLower, convert diacritics, remove special chars, convert 1-n spaces to '-'
 function sanitize(thing) {
   return thing.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s,]/gi, '')
-    .replace(/\s+/g, '-');
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\s,-]/gi, '')
+    .replace(/-+/g, '-');
 }
 
 export default function processTargeting(thing) {

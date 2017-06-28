@@ -12,6 +12,4 @@ export default function processTargeting(thing) {
   } else {
     return sanitize(thing.toString());
   }
-
-  return null;
 }

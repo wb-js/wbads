@@ -11,6 +11,7 @@ let slotIndex = 1;
 let slotDivIdPrefix = 'wbgpt-';
 let servicesAreEnabled = false;
 let slotIdQueue = [];
+let promises = [];
 
 class WbGpt {
   /**
@@ -148,9 +149,23 @@ class WbGpt {
   }
 
   /**
+   * Sets whatever promises to wait for before displaySlotById.
+   *
+   * @param {Promise[]} newPromises - array of promises to wait on
+   *
+   * @returns {WbGpt}
+   */
+  setPromises(newPromises) {
+    promises = newPromises;
+    return this;
+  }
+
+  /**
    * Runs the standard googletag display for the given id via the displayProvider
-   * if services have been enabled. If they are have not, adds their id to the queue
-   * which will be processed when enableServices is called
+   * if services have been enabled. If they have not, adds their id to the queue
+   * which will be processed when enableServices is called. The queue is unraveled
+   * and the slots are actually displayed once whatever promises (if any) resolve
+   * or are rejected.
    *
    * @link https://developers.google.com/doubleclick-gpt/reference#googletag.display
    *
@@ -160,7 +175,11 @@ class WbGpt {
    */
   displaySlotById(id) {
     if (servicesAreEnabled) {
-      displayProvider.display(id);
+      Promise.all(promises).then(() => {
+        displayProvider.display(id);
+      }).catch(() => {
+        displayProvider.display(id);
+      });
     } else {
       slotIdQueue.push(id);
     }

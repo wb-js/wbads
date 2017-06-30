@@ -196,7 +196,7 @@ class WbGpt {
    *
    * @returns {WbGpt}
    */
-  refreshAllSlots(options = null) {
+  refreshAllSlots(options = {}) {
     displayProvider.pubads().refresh(null, options);
     return this;
   }
@@ -212,7 +212,7 @@ class WbGpt {
    *
    * @returns {WbGpt}
    */
-  refreshSlotById(id, options = null) {
+  refreshSlotById(id, options = {}) {
     const slot = this.getSlotById(id);
     if (!slot) {
       return this;

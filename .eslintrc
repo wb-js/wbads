@@ -4,15 +4,18 @@
     "document": true,
     "window": true
   },
-  "rules": {
-    "no-param-reassign": [
-      "error",
-      {
-        "props": false
-      }
-    ]
-  },
   "env": {
     "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "rules": {
+    "jsx-a11y/img-has-alt": "off",
+    "react/jsx-space-before-closing": "off"
   }
 }

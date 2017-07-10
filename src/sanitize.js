@@ -9,7 +9,6 @@ function sanitize(thing) {
 export default function processTargeting(thing) {
   if (Array.isArray(thing)) {
     return thing.map(item => sanitize(item.toString()));
-  } else {
-    return sanitize(thing.toString());
   }
+  return sanitize(thing.toString());
 }

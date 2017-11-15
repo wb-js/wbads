@@ -1,6 +1,8 @@
 const displayCalled = new Set();
+let slotsToDisplay = [];
 let destroyCalled = [];
 let refreshCalled = [];
+let servicesEnabled = false;
 
 /**
  * @link https://developers.google.com/doubleclick-gpt/reference#googletag.display
@@ -8,13 +10,37 @@ let refreshCalled = [];
  * @param {string} divId
  */
 function display(divId) {
-  displayCalled.add(divId);
+  if (servicesEnabled) {
+    displayCalled.add(divId);
+  } else {
+    slotsToDisplay.push(divId);
+  }
+}
+
+/**
+ * @link https://developers.google.com/doubleclick-gpt/reference#googletag.display
+ *
+ * @param {string} divId
+ */
+function displaySlotById(divId) {
+  if (servicesEnabled) {
+    display(divId);
+  } else {
+    slotsToDisplay.push(divId);
+  }
 }
 
 /**
  * @link https://developers.google.com/doubleclick-gpt/reference#googletag.enableServices
  */
 function enableServices() {
+  servicesEnabled = true;
+  if (slotsToDisplay.length) {
+    slotsToDisplay.forEach((slotId) => {
+      displaySlotById((slotId));
+    });
+    slotsToDisplay = [];
+  }
 }
 
 /**
@@ -160,6 +186,7 @@ function reset() {
 
 const googletag = {
   display,
+  displaySlotById,
   defineSlot,
   defineOutOfPageSlot,
   destroySlots,

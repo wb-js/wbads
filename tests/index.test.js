@@ -44,25 +44,24 @@ test('wbgpt tests', (t) => {
 
   t.comment('destroy OutOfPageSlot assertions');
   wbgpt().destroySlotById(oopSlot.getConfig().divId);
-  t.same(wbgpt().getSlotById(oopSlot.getConfig().divId), undefined);
+  t.same(wbgpt().getSlotById(oopSlot.getConfig().divId), undefined, 'oopSlot should have been destroyed');
 
-  wbgpt().displaySlotById('wbgpt-1');
-  t.same(wasDisplayCalledForDivId('wbgpt-1'), false); // because services haven't been enabled yet
-  wbgpt().enableServices();
-  t.same(wasDisplayCalledForDivId('wbgpt-1'), true);
+  googletag.displaySlotById('wbgpt-1');
+  t.same(wasDisplayCalledForDivId('wbgpt-1'), false, 'display should NOT have been called on wbgpt-1'); // because services haven't been enabled yet
+  googletag.enableServices();
+  t.same(wasDisplayCalledForDivId('wbgpt-1'), true, 'display should have been called on wbgpt-1');
 
   const stdSlot2 = wbgpt().createSlot('/1234/slot/path', [300, 250], 'whatever-slot-1').setTargeting('taco', 'spice');
   const oopSlot2 = wbgpt().createOutOfPageSlot('/1234/oopslot/path').setTargeting('moar', 'spice');
 
-  wbgpt().displaySlotById('whatever-slot-1');
-  t.same(wasDisplayCalledForDivId('whatever-slot-1'), true);
+  googletag.displaySlotById('whatever-slot-1');
+  t.same(wasDisplayCalledForDivId('whatever-slot-1'), true, 'display should have been called for whatever-slot-1');
 
   t.same(wbgpt().getSlots(), [stdSlot2, oopSlot2]);
   wbgpt().destroyAllSlots();
   t.same(wbgpt().getSlots(), []);
   t.end();
 });
-
 
 test('wbgpt refresh tests', (t) => {
   wbgpt().configure(googletag);

@@ -1,9 +1,11 @@
 # Node App Files #
-##################
+############
+/node_modules/
+/dist/
+#/*.js # uncomment once we're publishing to npm
 
 # Deployment/IDE Tools #
-########################
-node_modules/
+############
 .buildpath
 *.iml
 .idea/
@@ -48,11 +50,3 @@ node_modules/
 Icon?
 ehthumbs.db
 Thumbs.db
-
-# Vagrant provisioning #
-########################
-.vagrant
-.bundle
-.cache
-.kitchen
-/tmp/

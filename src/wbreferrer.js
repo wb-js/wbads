@@ -1,9 +1,15 @@
 /**
  * @overview
- * Takes the referring domain(hostname only) to the site and passes the
- * hostname to googletag/dfp ad calls.
+ * Returns the referring domain (hostname only) of the site so
+ * long as it doesn't match the current hostname.
  *
- * This script should be included AFTER googletag is loaded.
+ * The referrer value is stored in the sessionStorage so
+ * it will persist as long as the browser tab is open.
+ *
+ * The value is intended to be populated into a gpt cust_param
+ * so referrer ad impressions/click can be tracked.  This
+ * module does NOT do the actual gpt population.
+ *
  */
 
 const tokenName = 'wbreferrer';
@@ -53,28 +59,16 @@ function toStorage(value) {
 }
 
 /**
- * @param {string} value
- */
-function set(value) {
-  return toStorage(value);
-}
-
-/**
  * @returns {string}
  */
-function get() {
+export default function get() {
   const hostSite = window.location.hostname;
   const referrer = getReferrer();
 
   //  don't set the referrer if is a internal link
   if (referrer && hostSite !== referrer) {
-    return set(referrer);
+    return toStorage(referrer);
   }
   //  go get value from storage if its there
   return fromStorage();
 }
-
-
-export default {
-  get,
-};

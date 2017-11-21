@@ -6,7 +6,7 @@
  * This script should be included AFTER googletag is loaded.
  */
 
-let tokenName;
+const tokenName = 'wbreferrer';
 
 /**
  * @returns {string} referrer
@@ -19,7 +19,7 @@ function getReferrer() {
   if (document.referrer) {
     url = document.referrer;
 
-    match = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?=]+)/im);
+    match = url.match(/^(?:https?:)?(?:\/\/)?([^\/\?]+)/i);
 
     if (match) {
       referrer = match[1];
@@ -53,14 +53,6 @@ function toStorage(value) {
 }
 
 /**
- * @param {string} newTokenName
- */
-function setTokenName(newTokenName) {
-  tokenName = newTokenName;
-  return tokenName;
-}
-
-/**
  * @param {string} value
  */
 function set(value) {
@@ -70,7 +62,7 @@ function set(value) {
 /**
  * @returns {string}
  */
-function generate() {
+function get() {
   const hostSite = window.location.hostname;
   const referrer = getReferrer();
 
@@ -82,15 +74,7 @@ function generate() {
   return fromStorage();
 }
 
-/**
- * @returns {string}
- */
-function get() {
-  return generate().toString();
-}
 
 export {
     get,
-    getReferrer,
-    setTokenName,
 };

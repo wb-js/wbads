@@ -13,13 +13,13 @@ test('wbreferrer - 3rd party site', (t) => {
   };
   t.equals(get(), 'www.google.com');
 
-  //test referrer with path and query string
+  // test referrer with path and query string
   global.document = {
     referrer: 'https://www.aol.com/entertainment/?tickets_report_id=milestone:11897603&ticket=6662#tolink',
   };
   t.equals(get(), 'www.aol.com');
 
-  //test referrer with subdomains
+  // test referrer with subdomains
   global.document = {
     referrer: 'https://level1.level2.aol.com/entertainment/?tickets_report_id=milestone:11897603&ticket=6662#tolink',
   };

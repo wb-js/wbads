@@ -19,7 +19,7 @@ function getReferrer() {
   if (document.referrer) {
     url = document.referrer;
 
-    match = url.match(/^(?:https?:)?(?:\/\/)?([^\/\?]+)/i);
+    match = url.match(/^(?:https?:)?(?:\/\/)?([^/?]+)/i);
 
     if (match) {
       referrer = match[1];
@@ -75,6 +75,6 @@ function get() {
 }
 
 
-export {
-    get,
+export default {
+  get,
 };

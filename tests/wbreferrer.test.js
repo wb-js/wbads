@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import test from 'tape';
-import { get } from '../src/wbreferrer';
+import get from '../src/wbreferrer';
 
 
 test('wbreferrer - 3rd party site', (t) => {

@@ -75,6 +75,6 @@ function get() {
 }
 
 
-export default {
-  get,
+export {
+    get as default,
 };

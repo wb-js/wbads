@@ -26,6 +26,18 @@ test('wbreferrer - 3rd party site', (t) => {
   };
   t.equals(wbreferrer(), 'level1.level2.aol.com');
 
+  // test referrer with NO subdomains
+  global.document = {
+    referrer: 'https://aol.com/entertainment/?tickets_report_id=milestone:11897603&ticket=6662#tolink',
+  };
+  t.equals(wbreferrer(), 'aol.com');
+
+  // test referrer with country level domain
+  global.document = {
+    referrer: 'https://level1.level2.aol.co.uk/entertainment/?tickets_report_id=milestone:11897603&ticket=6662#tolink',
+  };
+  t.equals(wbreferrer(), 'level1.level2.aol.co.uk');
+
   t.end();
 });
 

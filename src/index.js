@@ -3,6 +3,7 @@
 import Slot from './Slot';
 import OutOfPageSlot from './OutOfPageSlot';
 import sanitize from './sanitize';
+import wbreferrer from './wbreferrer';
 
 const slots = new Map();
 let googletag;
@@ -103,7 +104,7 @@ class WbGpt {
 
     this.destroySlotById(divId);
     const slot = new OutOfPageSlot(
-      googletag.defineOutOfPageSlot(adUnitPath, divId), adUnitPath, null, divId,
+        googletag.defineOutOfPageSlot(adUnitPath, divId), adUnitPath, null, divId,
     );
     slot.addService(googletag.pubads());
     slots.set(divId, slot);
@@ -274,6 +275,8 @@ class WbGpt {
 
 /** @var WbGpt */
 const instance = new WbGpt();
+
+export { wbreferrer };
 
 /**
  * @returns {WbGpt}
